@@ -17,6 +17,10 @@
       const lower = 1500
       const duration = 5000
       document.getElementById('roll-result').style.visibility  = "visible"
+      document.getElementById('bpm-label').style.cssText  = ""
+      document.getElementById('length-label').style.cssText  = ""
+      document.getElementById('hardness-label').style.cssText  = ""
+      document.getElementById('bonus-label').style.cssText  = ""
       window.bpm_wheel.spinTo(window.bpm_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower, duration)
       window.length_wheel.spinTo(window.length_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower, duration)
       window.hardness_wheel.spinTo(window.hardness_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower,duration)
@@ -218,7 +222,7 @@
         },
         onRest: (event) => {
           console.log("here")
-          document.getElementById('bpm-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('bpm-label').style.cssText  = "animation: grow 0.5s 1;"
           document.getElementById('bpm-label').innerHTML = window.bpm_wheel.items[event.currentIndex].label
         }
       });
@@ -230,7 +234,7 @@
         },
         onRest: (event) => {
           console.log("here")
-          document.getElementById('length-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('length-label').style.cssText  = "animation: grow 0.5s 0.5s 1;"
           document.getElementById('length-label').innerHTML = window.length_wheel.items[event.currentIndex].label
         }
       });
@@ -242,7 +246,7 @@
         },
         onRest: (event) => {
           console.log("here")
-          document.getElementById('hardness-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('hardness-label').style.cssText  = "animation: grow 0.5s 1s 1;"
           document.getElementById('hardness-label').innerHTML = window.hardness_wheel.items[event.currentIndex].label
         }
       });
@@ -254,7 +258,7 @@
         },
         onRest: (event) => {
           console.log("here")
-          document.getElementById('bonus-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('bonus-label').style.cssText  = "animation: grow 0.5s 1.5s 1;"
           document.getElementById('bonus-label').innerHTML = window.bonus_wheel.items[event.currentIndex].label
         }
       });
