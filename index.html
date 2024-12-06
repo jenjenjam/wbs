@@ -23,12 +23,12 @@
       window.bonus_wheel.spinTo(window.bonus_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower,duration)
     }
 
-    window.onload = () => {
-      setDifficulty()
+    window.onload = async () => {
+      await setDifficulty()
       updateWheels(25)
     }
     
-    function diffUpdate(level) {
+    async function diffUpdate(level) {
       updateWheels(level)
     }
 
@@ -177,7 +177,15 @@
         ]
     }
 
-    function setDifficulty() {
+    async function initImage(obj, pName) {
+      if (!obj[pName]) return null;
+      const i = new Image();
+      i.src = obj[pName];
+      obj[pName] = i;
+      return await i.decode();
+    }
+
+    async function setDifficulty() {
       let level =10
       let difficult = (activation) => 6 - activation + Math.min(4*activation, level)
       const generic_props = {
@@ -195,12 +203,13 @@
         rotationSpeedMax: 3000,
         rotationResistance: -200,
         lineWidth: 0,
-        // overlayImage: './img/example-1-overlay.svg',
+        overlayImage: './overlay.svg',
         borderWidth: 0,
         isInteractive: false,
         items: [
         ]
       }
+      await initImage(generic_props, 'overlayImage')
       window.bpm_wheel = new spinWheel.Wheel(document.querySelector('.bpm-wrapper'), 
       {
         ...generic_props,
