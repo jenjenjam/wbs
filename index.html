@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Spin Wheel Example - IIFE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
+  <link rel="stylesheet" href="./css/index.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-iife.js"></script>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+  <script>
+    function onSpin() {
+      const upper = 3000
+      const lower = 1500
+      const duration = 5000
+      document.getElementById('roll-result').style.visibility  = "visible"
+      window.bpm_wheel.spinTo(window.bpm_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower, duration)
+      window.length_wheel.spinTo(window.length_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower, duration)
+      window.hardness_wheel.spinTo(window.hardness_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower,duration)
+      window.bonus_wheel.spinTo(window.bonus_wheel.rotation+Math.floor(Math.random() * (upper-lower)) + lower,duration)
+    }
+
+    window.onload = () => {
+      setDifficulty()
+      updateWheels(25)
+    }
+    
+    function diffUpdate(level) {
+      updateWheels(level)
+    }
+
+    function updateWheels(level) {
+
+      let loser_level = "normal whiteboi"
+      if (level>=100) {
+        loser_level = "ballbusting superstar"
+      } else if (level>=75) {
+        loser_level = "mind broken"
+      } else if (level>=50) {
+        loser_level = "pussyfree loser"
+      } else if (level>=25) {
+        loser_level = "average degenerate"
+      }
+
+      document.getElementById('loser-label').innerHTML  = level+"% ("+loser_level+")"
+      
+      let difficult = (activation) => 10 - activation + Math.min(20*activation, level)
+      window.bpm_wheel.items = [
+          {
+            label: '40 BPM ⏯️',
+            weight: difficult(0),
+            backgroundColor: '#e1ebbc'
+          },
+          {
+            label: '60 BPM ▶️',
+            weight: difficult(1),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: '80 BPM ▶️▶️',
+            weight: difficult(2),
+            backgroundColor: '#ffe5b3'
+          },
+          {
+            label: '100 BPM ⏩',
+            weight: difficult(3),
+            backgroundColor: '#f9c7c5'
+          },
+          {
+            label: '120 BPM ⏩⏩',
+            weight: difficult(4),
+            backgroundColor: '#f5aca9'
+          },
+          {
+            label: '140 BPM ⏭️',
+            weight: difficult(5),
+            backgroundColor: '#d59fad'
+          }
+        ]
+
+      window.hardness_wheel.items = [
+          {
+            label: 'Light slaps ✋',
+            weight: difficult(1),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: 'Heavy slaps ✋💥',
+            weight: difficult(2),
+            backgroundColor: '#ffe5b3'
+          },
+          {
+            label: 'Light punches ✊',
+            weight: difficult(4),
+            backgroundColor: '#f9c7c5'
+          },
+          {
+            label: 'Heavy punches ✊💥',
+            weight: difficult(5),
+            backgroundColor: '#f5aca9'
+          }
+        ]
+
+      window.length_wheel.items = [
+          {
+            label: '2 mins ⌚',
+            weight: difficult(0),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: '4 mins ⏱️',
+            weight: difficult(2),
+            backgroundColor: '#ffe5b3'
+          },
+          {
+            label: '6 mins ⏲️',
+            weight: difficult(3),
+            backgroundColor: '#f9c7c5'
+          },
+          {
+            label: '8 mins ⏰',
+            weight: difficult(4),
+            backgroundColor: '#f5aca9'
+          },
+          {
+            label: '10 mins 🕰️',
+            weight: difficult(5),
+            backgroundColor: '#d59fad'
+          }
+        ]
+
+
+        window.bonus_wheel.items = [
+          {
+            label: 'Nothing',
+            weight: difficult(0),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: 'Moan something pathetic 🎤',
+            weight: difficult(4),
+            backgroundColor: '#ffe5b3'
+          },
+          {
+            label: 'Nothing',
+            weight: difficult(0),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: 'Spin again 🔁',
+            weight: difficult(4),
+            backgroundColor: '#f9c7c5'
+          },
+          {
+            label: 'Nothing',
+            weight: difficult(0),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: 'Tie balls and spin again 🔁',
+            weight: difficult(4),
+            backgroundColor: '#d59fad'
+          },
+          {
+            label: 'Nothing',
+            weight: difficult(0),
+            backgroundColor: '#f7f9cd'
+          },
+          {
+            label: 'Squeeze balls and spin again 🔁',
+            weight: difficult(4),
+            backgroundColor: '#f5aca9'
+          }
+        ]
+    }
+
+    function setDifficulty() {
+      let level =10
+      let difficult = (activation) => 6 - activation + Math.min(4*activation, level)
+      const generic_props = {
+        name: 'BPM',
+        radius: 0.89,
+        pointerAngle: 0,
+        itemLabelRadius: 0.92,
+        itemLabelRadiusMax: 0.37,
+        itemLabelRotation: 0,
+        // itemLabelAlign: AlignText.right,
+        itemLabelColors: ['#000'],
+        itemLabelBaselineOffset: -0.06,
+        itemLabelFont: 'sans-serif',
+        itemLabelAlign: 'right',
+        rotationSpeedMax: 3000,
+        rotationResistance: -200,
+        lineWidth: 0,
+        // overlayImage: './img/example-1-overlay.svg',
+        borderWidth: 0,
+        isInteractive: false,
+        items: [
+        ]
+      }
+      window.bpm_wheel = new spinWheel.Wheel(document.querySelector('.bpm-wrapper'), 
+      {
+        ...generic_props,
+        onCurrentIndexChange: (event) => {
+          document.getElementById('bpm-label').innerHTML = window.bpm_wheel.items[event.currentIndex].label
+        },
+        onRest: (event) => {
+          console.log("here")
+          document.getElementById('bpm-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('bpm-label').innerHTML = window.bpm_wheel.items[event.currentIndex].label
+        }
+      });
+      window.length_wheel = new spinWheel.Wheel(document.querySelector('.length-wrapper'), 
+      {
+        ...generic_props,
+        onCurrentIndexChange: (event) => {
+          document.getElementById('length-label').innerHTML = window.length_wheel.items[event.currentIndex].label
+        },
+        onRest: (event) => {
+          console.log("here")
+          document.getElementById('length-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('length-label').innerHTML = window.length_wheel.items[event.currentIndex].label
+        }
+      });
+      window.hardness_wheel = new spinWheel.Wheel(document.querySelector('.hardness-wrapper'), 
+      {
+        ...generic_props,
+        onCurrentIndexChange: (event) => {
+          document.getElementById('hardness-label').innerHTML = window.hardness_wheel.items[event.currentIndex].label
+        },
+        onRest: (event) => {
+          console.log("here")
+          document.getElementById('hardness-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('hardness-label').innerHTML = window.hardness_wheel.items[event.currentIndex].label
+        }
+      });
+      window.bonus_wheel = new spinWheel.Wheel(document.querySelector('.bonus-wrapper'), 
+      {
+        ...generic_props,
+        onCurrentIndexChange: (event) => {
+          document.getElementById('bonus-label').innerHTML = window.bonus_wheel.items[event.currentIndex].label
+        },
+        onRest: (event) => {
+          console.log("here")
+          document.getElementById('bonus-label').style.cssText  = "animation: grow 1s 2;"
+          document.getElementById('bonus-label').innerHTML = window.bonus_wheel.items[event.currentIndex].label
+        }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Whiteboi Breaker <3</h1>
+      <p class="lead text-muted">Choose your difficulty, hit spin and bust away</p>
+      <p>
+        <label for="diff" class="form-label">How big of a loser are you? Select below 0-100%</label>
+        <input type="range" id="diff" class="form-range" min="0" max="100" default value="25"   oninput="diffUpdate(this.value)" onchange="diffUpdate(this.value)">
+        <p class="text-muted" id="loser-label">25% (average degenerate)</p>
+        <a href="#" class="btn btn-primary btn-lg" onclick="onSpin()">Spin</a>
+
+        <div class="alert alert-primary text-center" role="alert" id="roll-result" style="visibility: hidden; margin-top: 1rem;">
+          <h3 class="card-title text-center" id="bpm-label"></h3>
+          <h3 class="card-title text-center" id="length-label"></h3>
+          <h3 class="card-title text-center" id="hardness-label"></h3>
+          <h3 class="card-title text-center" id="bonus-label"></h3>
+        </div>
+      </p>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <h4 class="card-title text-center">BPM</h4>
+              <div class="bpm-wrapper" style="height: 400px; width: 100%; display: block;"></div>
+             </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <h4 class="card-title text-center">Length</h4>
+              <div class="length-wrapper" style="height: 400px; width: 100%; display: block;"></div>
+             </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <h4 class="card-title text-center">Hardness</h4>
+              <div class="hardness-wrapper" style="height: 400px; width: 100%; display: block;"></div>
+             </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <h4 class="card-title text-center">Bonus</h4>
+              <div class="bonus-wrapper" style="height: 400px; width: 100%; display: block;"></div>
+             </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
